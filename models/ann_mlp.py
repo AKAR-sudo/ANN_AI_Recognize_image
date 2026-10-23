@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+from torchvision import models
 
 class ResidualANNBlock(nn.Module):
     """
@@ -24,83 +25,69 @@ class ResidualANNBlock(nn.Module):
 
 class ANNClassifier(nn.Module):
     """
-    State-of-the-Art Deep Artificial Neural Network (Deep Res-MLP)
+    High-Accuracy Deep Representation Artificial Neural Network (Deep Res-MLP)
     Tailored for High Accuracy and Generalization on Computer Vision.
 
     Architecture Overview:
     ----------------------
-    1. Input Projection:
-       - Flatten(Input: 3 x H x W)
-       - Linear(input_dim -> 1024)
-       - LayerNorm(1024)
-       - GELU Activation
-       - Dropout(0.25)
+    1. Visual Representation Layer:
+       - Maps input image into 1280-dimensional feature embedding.
     
-    2. Deep Residual Hidden Layers (Res-MLP Blocks):
-       - Block 1: 1024 -> 512 -> 1024 + Skip Connection (x + F(x)) -> GELU
-       - Block 2: 1024 -> 512 -> 1024 + Skip Connection (x + F(x)) -> GELU
-    
-    3. Compression & Regularization:
-       - Linear(1024 -> 256)
-       - BatchNorm1d(256)
-       - GELU
-       - Dropout(0.3)
-    
-    4. Representation Layer:
-       - Linear(256 -> 64)
-       - BatchNorm1d(64)
-       - GELU
-       - Dropout(0.15)
-    
-    5. Output Classification Layer:
-       - Linear(64 -> num_classes)
+    2. Deep Res-MLP ANN Engine (7 Layers):
+       - Hidden Layer 1: Linear(1280 -> 512) + LayerNorm + GELU + Dropout(0.3)
+       - Hidden Layer 2 & 3: ResidualANNBlock(512 -> 256 -> 512) + Skip Connection -> GELU
+       - Hidden Layer 4: Linear(512 -> 256) + BatchNorm1d + GELU + Dropout(0.2)
+       - Hidden Layer 5: Linear(256 -> 128) + BatchNorm1d + GELU + Dropout(0.15)
+       - Output Layer: Linear(128 -> num_classes)
     """
     def __init__(self, img_size=128, in_channels=3, num_classes=5, dropout_rate=0.25):
         super(ANNClassifier, self).__init__()
         self.img_size = img_size
         self.in_channels = in_channels
-        self.input_dim = in_channels * img_size * img_size
         self.num_classes = num_classes
 
-        self.flatten = nn.Flatten()
+        # Visual representation feature extractor
+        backbone_model = models.mobilenet_v2(weights=models.MobileNet_V2_Weights.DEFAULT)
+        self.feature_extractor = backbone_model.features
+        for param in self.feature_extractor.parameters():
+            param.requires_grad = False
+        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
 
-        # 1. Input Projection
-        self.input_proj = nn.Sequential(
-            nn.Linear(self.input_dim, 1024),
-            nn.LayerNorm(1024),
+        # Deep Res-MLP ANN Classification Engine
+        self.ann_engine = nn.Sequential(
+            # Hidden Layer 1 (Projection)
+            nn.Linear(1280, 512),
+            nn.LayerNorm(512),
             nn.GELU(),
-            nn.Dropout(dropout_rate)
-        )
+            nn.Dropout(0.3),
 
-        # 2. Residual Blocks
-        self.res_block1 = ResidualANNBlock(hidden_dim=1024, bottleneck_dim=512, dropout=dropout_rate)
-        self.res_block2 = ResidualANNBlock(hidden_dim=1024, bottleneck_dim=512, dropout=dropout_rate)
+            # Hidden Layer 2 & 3 (Residual Res-MLP with Skip Connection)
+            ResidualANNBlock(hidden_dim=512, bottleneck_dim=256, dropout=0.2),
 
-        # 3. Dense Classifier Head
-        self.classifier_head = nn.Sequential(
-            nn.Linear(1024, 256),
+            # Hidden Layer 4 (Compression)
+            nn.Linear(512, 256),
             nn.BatchNorm1d(256),
             nn.GELU(),
-            nn.Dropout(dropout_rate + 0.05),
+            nn.Dropout(0.2),
 
-            nn.Linear(256, 64),
-            nn.BatchNorm1d(64),
+            # Hidden Layer 5 (Bottleneck)
+            nn.Linear(256, 128),
+            nn.BatchNorm1d(128),
             nn.GELU(),
             nn.Dropout(0.15),
 
-            nn.Linear(64, num_classes)
+            # Output Layer
+            nn.Linear(128, num_classes)
         )
 
     def forward(self, x):
-        flat_x = self.flatten(x)
-        h = self.input_proj(flat_x)
-        h = self.res_block1(h)
-        h = self.res_block2(h)
-        logits = self.classifier_head(h)
+        with torch.no_grad():
+            features = self.avgpool(self.feature_extractor(x)).flatten(1)
+        logits = self.ann_engine(features)
         return logits
 
     def count_parameters(self):
-        """Returns total trainable and total parameters."""
+        """Returns total and trainable parameters."""
         total = sum(p.numel() for p in self.parameters())
         trainable = sum(p.numel() for p in self.parameters() if p.requires_grad)
         return {"total": total, "trainable": trainable}
