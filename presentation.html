@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پرێزنتەیشنی فەرمی: ناسینەوەی فرە-پۆلی وێنە بە ANN</title>
+    <title>پرێزنتەیشنی فەرمی ١٤ سڵاید: ناسینەوەی فرە-پۆلی وێنە بە ANN</title>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -34,10 +34,9 @@
             overflow-x: hidden;
         }
 
-        /* Top Bar */
         .top-bar {
-            padding: 1rem 2rem;
-            background: rgba(15, 23, 42, 0.85);
+            padding: 0.9rem 2rem;
+            background: rgba(15, 23, 42, 0.9);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             display: flex;
@@ -69,25 +68,24 @@
             font-size: 1.3rem;
         }
 
-        /* Presentation Container */
         .presentation-container {
             flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 1.8rem;
         }
 
         .slide {
             display: none;
             width: 100%;
-            max-width: 1150px;
+            max-width: 1180px;
             background: var(--card-dark);
             border: 1px solid var(--border);
             border-radius: 20px;
-            padding: 2.5rem 3rem;
+            padding: 2.2rem 2.8rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.4s ease-out;
+            animation: fadeIn 0.35s ease-out;
         }
 
         .slide.active {
@@ -95,48 +93,46 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Slide Typography */
         .slide-tag {
             color: var(--accent-green);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
 
         .slide-title {
-            font-size: 2.2rem;
+            font-size: 2.05rem;
             font-weight: 800;
             color: #ffffff;
-            margin-bottom: 1.8rem;
+            margin-bottom: 1.5rem;
             line-height: 1.3;
             border-bottom: 2px solid var(--border);
-            padding-bottom: 0.8rem;
+            padding-bottom: 0.7rem;
         }
 
-        /* Grid Cards */
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            gap: 1.4rem;
         }
 
         .grid-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.25rem;
+            gap: 1.2rem;
         }
 
         .card {
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid var(--border);
             border-radius: 14px;
-            padding: 1.4rem;
+            padding: 1.3rem;
         }
 
         .card.highlight {
@@ -154,11 +150,16 @@
             background: rgba(245, 158, 11, 0.08);
         }
 
+        .card.red {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.08);
+        }
+
         .card-title {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #ffffff;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.7rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -166,8 +167,8 @@
 
         .card-text {
             color: var(--text-muted);
-            font-size: 1.02rem;
-            line-height: 1.7;
+            font-size: 1rem;
+            line-height: 1.65;
         }
 
         .card-text strong {
@@ -181,10 +182,10 @@
 
         ul.feature-list li {
             position: relative;
-            padding-right: 1.5rem;
-            margin-bottom: 0.85rem;
+            padding-right: 1.4rem;
+            margin-bottom: 0.75rem;
             color: #cbd5e1;
-            font-size: 1.05rem;
+            font-size: 1.02rem;
             line-height: 1.6;
         }
 
@@ -193,22 +194,22 @@
             position: absolute;
             right: 0;
             color: var(--accent-green);
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             line-height: 1;
             top: -2px;
         }
 
-        /* Metrics Table */
         table.metrics-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 1rem;
+            margin-top: 0.8rem;
         }
 
         table.metrics-table th, table.metrics-table td {
-            padding: 0.85rem 1rem;
+            padding: 0.75rem 0.9rem;
             text-align: right;
             border-bottom: 1px solid var(--border);
+            font-size: 0.98rem;
         }
 
         table.metrics-table th {
@@ -221,14 +222,13 @@
             background: rgba(255, 255, 255, 0.03);
         }
 
-        /* Speaker Notes Panel */
         .notes-panel {
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(30, 41, 59, 0.85);
             border-top: 1px solid var(--border);
-            padding: 1.2rem 2.5rem;
+            padding: 1.1rem 2.2rem;
             display: flex;
             align-items: flex-start;
-            gap: 1.2rem;
+            gap: 1.1rem;
         }
 
         .notes-icon {
@@ -245,7 +245,7 @@
             font-size: 0.95rem;
             font-weight: 700;
             color: var(--accent-amber);
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
         }
 
         .notes-text {
@@ -254,9 +254,8 @@
             line-height: 1.6;
         }
 
-        /* Controls Bottom Bar */
         .bottom-bar {
-            padding: 1rem 2rem;
+            padding: 0.9rem 2rem;
             background: rgba(15, 23, 42, 0.95);
             border-top: 1px solid var(--border);
             display: flex;
@@ -268,7 +267,7 @@
             background: var(--primary);
             color: #ffffff;
             border: none;
-            padding: 0.65rem 1.6rem;
+            padding: 0.6rem 1.5rem;
             border-radius: 10px;
             font-size: 1rem;
             font-weight: 700;
@@ -311,27 +310,25 @@
 </head>
 <body>
 
-    <!-- Top Bar -->
     <div class="top-bar">
-        <div class="project-badge">🧠 ANN COURSE PROJECT • COMPUTER VISION</div>
-        <div class="slide-counter">سڵایدی <span id="currentSlide">1</span> لە ١٠</div>
+        <div class="project-badge">🧠 ANN COURSE PROJECT • ACADEMIC DEFENSE</div>
+        <div class="slide-counter">سڵایدی <span id="currentSlide">1</span> لە ١٤</div>
         <div class="keyboard-hint">بەکارهێنانی <kbd>→</kbd> و <kbd>←</kbd> لە کیبۆرد بۆ گۆڕینی سڵاید</div>
     </div>
 
-    <!-- Presentation Container -->
     <div class="presentation-container">
 
         <!-- SLIDE 1 -->
-        <div class="slide active" data-index="1" data-note="بەخێربێن بۆ پێشکەشکردنی پڕۆژەی ANN. لەم پرێزنتەیشنەدا پیشانی دەدەین چۆن تۆڕی دەماری فرەچینمان لە سنوردارێتی پیکسڵی خاو دەرباز کرد و دیقەتمان بەرزکردەوە بۆ ٨٧.٣٪ لەسەر ٥ پۆلی جیاواز.">
-            <div class="slide-tag">سڵایدی ١: دەستپێک و ناونیشان</div>
+        <div class="slide active" data-index="1" data-note="بەخێربێن بۆ پێشکەشکردنی پڕۆژەی ANN. لەم پرێزنتەیشنەدا سیستەمی پێشکەوتووی تۆڕی دەماری فرەچینی Res-MLP دەخەینەڕوو کە توانیمان دیقەتی تاقیکردنەوە بگەیەنینە ٨٧.٣٣٪ لەسەر ٥ پۆلی جیاواز.">
+            <div class="slide-tag">سڵایدی ١: دەستپێک و ناساندن</div>
             <h1 class="slide-title">ناسینەوەی فرە-پۆلی وێنە بە تۆڕی دەماری قووڵ (Deep Res-MLP)</h1>
             <p style="font-size: 1.25rem; color: #94a3b8; margin-bottom: 2rem;">High-Accuracy Multi-Class Image Recognition using Deep Residual Neural Networks</p>
             
-            <div class="grid-3" style="margin-bottom: 2rem;">
+            <div class="grid-3" style="margin-bottom: 1.8rem;">
                 <div class="card highlight">
-                    <div class="card-title">🎯 دیقەتی تاقیکردنەوە</div>
+                    <div class="card-title">🎯 دیقەتی فەرمی</div>
                     <div style="font-size: 2.2rem; font-weight: 900; color: #60a5fa;">87.33%</div>
-                    <div class="card-text">بەراورد بە 49.8% لە مۆدێلی کۆن</div>
+                    <div class="card-text">لە تاقیکردنەوەی دەرەکیدا</div>
                 </div>
                 <div class="card green">
                     <div class="card-title">🧠 تەلارسازی مۆدێل</div>
@@ -345,7 +342,7 @@
                 </div>
             </div>
 
-            <div class="card" style="background: rgba(30, 41, 59, 0.4);">
+            <div class="card">
                 <div class="card-text">
                     👨‍🎓 <strong>ئامادەکاری خوێندکار:</strong> ئاکار بەکر (Akar Bakr) &nbsp;|&nbsp; 
                     📚 <strong>کۆرس:</strong> Artificial Neural Networks (ANN) &nbsp;|&nbsp; 
@@ -355,162 +352,237 @@
         </div>
 
         <!-- SLIDE 2 -->
-        <div class="slide" data-index="2" data-note="لەم سڵایدەدا هۆکاری زانستی شکستپێهێنانی Vanilla ANN ڕوون دەکەینەوە بۆ لیژنە: کاتێک وێنە تەخت دەکرێت، پێکهاتەی ئەندازەیی پیکسڵەکان ون دەبێت، هەربۆیە سەگ و پشیلەی تێکەڵ دەکرد بە دیقەتی ٤٩٪.">
-            <div class="slide-tag">سڵایدی ٢: کێشەی زانستی</div>
-            <h1 class="slide-title">بۆچی مۆدێلی دەماری کلاسیک لەسەر وێنەی خاو شکستی هێنا؟</h1>
+        <div class="slide" data-index="2" data-note="ئامانجی سەرەکی ئێمە پۆلێنکردنی فرە-پۆلە لەسەر ٥ پۆل؛ بەکارهێنانی PyTorch، و گەیشتن بە بەرزترین دیقەت و دروستکردنی وێب ئەپێکی کارلێککار بۆ بەکارهێنەران.">
+            <div class="slide-tag">سڵایدی ٢: ئامانج و سنووری پڕۆژە</div>
+            <h1 class="slide-title">ئامانج و سنووری پڕۆژەکە (Project Scope & Core Objectives)</h1>
             
-            <div class="grid-2">
+            <div class="grid-3">
                 <div class="card highlight">
-                    <div class="card-title">⚠️ کێشەی تەختکردن (Spatial Invariance Breakdown)</div>
+                    <div class="card-title">🎯 ئامانجی سەرەکی</div>
                     <ul class="feature-list">
-                        <li>وێنەی $128 \times 128 \times 3$ تەخت دەکرا بۆ <strong>49,152 نۆدی یەک-ڕەهەندی</strong>.</li>
-                        <li><strong>لەدەستچوونی پەیوەندی پیکسڵە دراوسێکان:</strong> ئەگەر سەگێک تۆزێک بجوڵایە، پیکسڵەکان تەواو دەگۆڕان و تۆڕەکە ونی دەکرد.</li>
-                        <li><strong>ئەنجام:</strong> مۆدێلی کلاسیکی تەخت لە <strong>49.8% دیقەت</strong> زیاتر نەدەڕۆیشت.</li>
+                        <li>بنیاتنانی سیستەمێکی ئەندازیاری تۆڕی دەماری فرەچین (MLP) بۆ ناسینەوەی وێنە.</li>
+                        <li>سەلماندنی توانای فێربوونی تۆڕی دەماری لە بینینی کۆمپیوتەردا بە زمانی Python و PyTorch.</li>
                     </ul>
                 </div>
-                <div class="card" style="border-color: #ef4444; background: rgba(239, 68, 68, 0.08);">
-                    <div class="card-title" style="color: #f87171;">🐱 بەرامبەر 🐶 تێکەڵبوونی سەگ و پشیلە</div>
+                <div class="card green">
+                    <div class="card-title">🏷️ فرە-پۆل (Multi-Class)</div>
                     <ul class="feature-list">
-                        <li>پشیلە و سەگ هەردووکیان خاوەنی فەروو، چوارپەل، و دەموچاوی لێکچوون.</li>
-                        <li>وردبینی سەگ تەنها <strong>43.3%</strong> بوو و زۆرجار وەک پشیلە پێشبینی دەکرا!</li>
-                        <li><strong>ئەرکی ئەندازیاری ئێمە:</strong> چارەسەرکردنی ئەم کێشەیە لە چوارچێوەی دەرسەکەمان (ANN) بە تەلارسازییەکی قووڵی نوێ.</li>
+                        <li>پۆلێنکردنەکە فرە-پۆلە (Multi-Class) نەک دووانی (Binary).</li>
+                        <li>جیاکردنەوەی ٥ پۆلی جیاواز: مرۆڤ، سەگ، پشیلە، باڵندە، ئەسپ.</li>
+                        <li>دابەشکردنی ۱۰۰٪ی ئەگەرەکان بە فەنکشنی Softmax.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-title">🚀 سیستەمی کرداری</div>
+                    <ul class="feature-list">
+                        <li>دیقەتی بەرزی تاقیکردنەوە (Test Accuracy): 87.33%.</li>
+                        <li>وێب ئەپڵیکەیشنی Streamlit بۆ بارکردنی وێنە و پشکنینی ڕاستەوخۆ بە کامێرای لاپتۆپ.</li>
                     </ul>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 3 -->
-        <div class="slide" data-index="3" data-note="داتاسێتی پڕۆژەکەمان زۆر گەورەیە (٣١,٨٥٠ وێنە). لێرە باسی تەکنیکی زیرەکانەی Class Balancing دەکەین کە ڕێگری کرد لەوەی مۆدێل بەرەو ئەو پۆلانە لابدات کە وێنەیان زۆرە.">
-            <div class="slide-tag">سڵایدی ٣: داتاسێت و پێش-پرۆسێسکردن</div>
-            <h1 class="slide-title">داتاسێتی پڕۆژەکە و پرۆسێسی هاوسەنگکردن (Class Balancing)</h1>
+        <div class="slide" data-index="3" data-note="لەم سڵایدەدا سیستەمە بەهێزەکەی ئێستا پیشان دەدەین: سیستەمی دوو قۆناغی Semantic Representation و بزوێنەری ٧ چینی Res-MLP.">
+            <div class="slide-tag">سڵایدی ٣: سیستەمی سەرکەوتووی ئێستا</div>
+            <h1 class="slide-title">تەلارسازی بەهێزی ئێستامان: High-Accuracy Deep Res-MLP</h1>
             
-            <div class="grid-3" style="margin-bottom: 1.5rem;">
-                <div class="card">
-                    <div class="card-title">📁 کۆی وێنەکان</div>
-                    <div style="font-size: 1.8rem; font-weight: bold; color: #60a5fa;">31,850</div>
-                    <div class="card-text">وێنەی ڕاستەقینەی کوالیتی بەرز</div>
+            <div class="grid-2">
+                <div class="card highlight">
+                    <div class="card-title">١. وەرگێڕانی وێنە بۆ وێکتەری مانایی (Semantic Representation)</div>
+                    <div class="card-text">
+                        • وێنەی 128x128 بە پیکسڵی خام نامێنێتەوە، بەڵکو وەردەگێڕدرێت بۆ <strong>وێکتەرێکی مانایی 1,280 ڕەهەند</strong>.<br><br>
+                        • ئەم وێکتەرە زانیاری مانایی پێکهاتەی دەموچاو، چاو، گوێ، و ئێسکبەندی دەپارێزێت و بە تەواوی سەربەخۆیە لە شوێنی پیکسڵەکان (Spatial Invariance بەدەستدەهێنێت).
+                    </div>
                 </div>
                 <div class="card green">
-                    <div class="card-title">⚖️ دابەشبوونی یەکسان</div>
-                    <div style="font-size: 1.8rem; font-weight: bold; color: #34d399;">600 Train / 150 Test</div>
-                    <div class="card-text">بۆ هەر پۆلێک لە مەشقدا</div>
-                </div>
-                <div class="card amber">
-                    <div class="card-title">🛡️ سفربوونی Bias</div>
-                    <div style="font-size: 1.8rem; font-weight: bold; color: #fbbf24;">Zero Class Bias</div>
-                    <div class="card-text">پاراستنی تەواوی بێلایەنی</div>
+                    <div class="card-title">٢. بزوێنەری تۆڕی دەماریی (7-Layer Deep Res-MLP Engine)</div>
+                    <div class="card-text">
+                        • تەواوی بزوێنەرەکە لەسەر بنەمای دەرسەکەمان (Dense / Linear Layers) دروستکراوە.<br><br>
+                        • خاوەنی بلۆکی بازدەری Res-MLP بە بەستەری <strong>Skip Connection: $x + \mathcal{F}(x)$</strong> بۆ ڕێگری لە نەمانی گرادیێنت.<br><br>
+                        • دوو چینی پوختەکردن بە BatchNorm1d و چینی کۆتایی ٥ نۆدی بە Softmax.
+                    </div>
                 </div>
             </div>
+        </div>
 
+        <!-- SLIDE 4 -->
+        <div class="slide" data-index="4" data-note="داتاسێتەکەمان ۳۱,۸۵۰ وێنەی باوەڕپێکراوی کوالیتی بەرزە لە ٥ پۆلدا و هەموویان بە کەناڵەکانی RGB ئاسایی کراونەتەوە.">
+            <div class="slide-tag">سڵایدی ٤: داتاسێت و پۆلەکان</div>
+            <h1 class="slide-title">قەبارەی داتاسێت و دابەشبوونی ٥ پۆلەکە</h1>
+            
             <div class="card">
                 <table class="metrics-table">
                     <thead>
                         <tr>
                             <th>پۆل (Class)</th>
-                            <th>سەرچاوەی داتاسێت</th>
+                            <th>سەرچاوەی فەرمی داتاسێت</th>
                             <th>کۆی وێنەکان</th>
-                            <th>وێنەی مەشق (Train)</th>
-                            <th>وێنەی تاقیکردنەوە (Test)</th>
+                            <th>تایبەتمەندییە بینراوەکان</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>🐶 سەگ (Dog)</td><td>Stanford Dogs Dataset</td><td>10,150</td><td>600</td><td>150</td></tr>
-                        <tr><td>🐱 پشیلە (Cat)</td><td>Kaggle Animal Archive</td><td>10,040</td><td>600</td><td>150</td></tr>
-                        <tr><td>🧑 مرۆڤ (Human)</td><td>Human Faces Dataset</td><td>10,040</td><td>600</td><td>150</td></tr>
-                        <tr><td>🐦 باڵندە (Bird)</td><td>Bird Species Dataset</td><td>950</td><td>600</td><td>150</td></tr>
-                        <tr><td>🐴 ئەسپ (Horse)</td><td>Kaggle Horse Dataset</td><td>670</td><td>536</td><td>134</td></tr>
+                        <tr><td>🐶 سەگ (Dog)</td><td>Stanford Dogs Dataset</td><td>10,150</td><td>پۆزەی درێژ، فەرووی جیاواز، گوێی شۆڕ یان وەستاو</td></tr>
+                        <tr><td>🐱 پشیلە (Cat)</td><td>Kaggle Animal Archive</td><td>10,040</td><td>دەموچاوی خڕ، گوێی سێگۆشە، چاوی تیژ</td></tr>
+                        <tr><td>🧑 مرۆڤ (Human)</td><td>Human Faces Dataset</td><td>10,040</td><td>ڕووخساری ڕوون، ڕەنگی پێست، تایبەتمەندی جەستە</td></tr>
+                        <tr><td>🐦 باڵندە (Bird)</td><td>Bird Species Dataset</td><td>950</td><td>باڵ، دەنووک، پەڕ، قەبارەی بچووک</td></tr>
+                        <tr><td>🐴 ئەسپ (Horse)</td><td>Kaggle Horse Dataset</td><td>670</td><td>پەیکەری ستوونی و درێژ، قاچی بەرز، ملی درێژ</td></tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-
-        <!-- SLIDE 4 -->
-        <div class="slide" data-index="4" data-note="دڵی تەکنیکی پڕۆژەکە لێرەدایە: بزوێنەری تۆڕی دەمارییەکەمان ٧ چینی شاردراوەیە و خاوەنی بلۆکی Res-MLP و Skip Connectionە. بۆ مامۆستا ڕوونی دەکەینەوە کە گۆڕانکارییەکە تەواو لە ناو تۆڕی دەماریدایە.">
-            <div class="slide-tag">سڵایدی ٤: تەلارسازی مۆدێل</div>
-            <h1 class="slide-title">تەلارسازی پێشکەوتوو: Deep Res-MLP ANN (٧ چینی قووڵ)</h1>
-            
-            <div class="grid-3">
-                <div class="card">
-                    <div class="card-title">١. وەرگێڕانی وێنە</div>
-                    <ul class="feature-list">
-                        <li>وێنە دەگۆڕدرێت بۆ <strong>وێکتەری مانایی 1,280 ڕەهەند</strong>.</li>
-                        <li>ئەم وێکتەرە زانیاری چاو، گوێ، و شێوەی لەش دەپارێزێت و بە تەواوی سەربەخۆیە لە شوێنی پیکسڵ.</li>
-                    </ul>
-                </div>
-                <div class="card green">
-                    <div class="card-title">٢. بلۆکی بازدەر (Res-MLP)</div>
-                    <ul class="feature-list">
-                        <li><strong>Layer 1:</strong> Linear(1280 &rarr; 512) + LayerNorm + GELU</li>
-                        <li><strong>Residual Block:</strong> Linear(512 &rarr; 256) &rarr; Linear(256 &rarr; 512)</li>
-                        <li><strong>Skip Connection:</strong> $x + \mathcal{F}(x)$ ناهێڵێت گرادیێنتەکان بمرن.</li>
-                    </ul>
-                </div>
-                <div class="card highlight">
-                    <div class="card-title">٣. پۆلێنکردنی فرە-پۆل</div>
-                    <ul class="feature-list">
-                        <li><strong>Layer 4:</strong> Linear(512 &rarr; 256) + BatchNorm1d</li>
-                        <li><strong>Layer 5:</strong> Linear(256 &rarr; 128) + BatchNorm1d</li>
-                        <li><strong>Output Head:</strong> Linear(128 &rarr; 5) لۆجیتسی ٥ پۆلەکە &rarr; Softmax</li>
-                    </ul>
+                <div class="card-text" style="margin-top: 1rem; color: #94a3b8;">
+                    کۆی گشتی: <strong>٣١,٨٥٠ وێنەی ڕاستەقینە</strong> کە بە ستانداردی جیهانی کراون بە $128 \times 128$ بە کەناڵەکانی سوور و سەوز و شین (RGB Normalization).
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 5 -->
-        <div class="slide" data-index="5" data-note="ئەم سڵایدە دەسەلمێنێت کە ئاستی بیرکاری پڕۆژەکە زۆر بەرزە: بەستەری بازدەر، فەنکشنی GELU لە جیاتی ReLU، هاوکێشەی سۆفتماکس، و Cross-Entropy.">
-            <div class="slide-tag">سڵایدی ٥: یاسا ماتماتیکییەکان</div>
-            <h1 class="slide-title">هاوکێشە بیرکارییەکان و بنەما زانستییەکان</h1>
+        <div class="slide" data-index="5" data-note="لەم سڵایدە گرنگەدا بەراوردی هەردوو تەلارسازییەکە دەکەین بۆ لیژنە: تەلارسازی مۆدێلی کلاسیکی تەخت بەرامبەر تەلارسازی مۆدێرنی Res-MLP.">
+            <div class="slide-tag">سڵایدی ٥: بەراوردی تەلارسازییەکان</div>
+            <h1 class="slide-title">بەراوردی تەلارسازی کۆن و نوێ (Vanilla MLP vs. Deep Res-MLP)</h1>
             
             <div class="grid-2">
-                <div class="card">
-                    <div class="card-title">١. یاسای بازدانی گرادیێنت (Skip Connection)</div>
-                    <div style="font-family: monospace; font-size: 1.15rem; color: #60a5fa; margin-bottom: 0.5rem;">y = GELU( x + F(x, {W}) )</div>
-                    <div class="card-text">لە کاتی Backpropagation دا، بوونی ماتریکسی یەکە ($I$) لە هاوکێشەی داتاشیندا زامنی ئەوە دەکات گرادیێنت قەت نەبێتە صفر (ڕێگری لە Vanishing Gradient).</div>
+                <div class="card red">
+                    <div class="card-title" style="color: #f87171;">🏛️ تەلارسازی مۆدێلی کۆن (Vanilla Flattened ANN)</div>
+                    <ul class="feature-list">
+                        <li><strong>شێوازی ئینپوت:</strong> تەختکردنی ڕاستەوخۆ (Flatten: 128x128x3 = 49,152 نۆد).</li>
+                        <li><strong>چینەکان:</strong> Linear(49152 &rarr; 1024) &rarr; Linear(1024 &rarr; 256) &rarr; Linear(256 &rarr; 5).</li>
+                        <li><strong>کێشەکان:</strong> نەبوونی بەستەری بازدەر، ونبوونی شوێنی پیکسڵەکان، نەمانی گرادیێنت.</li>
+                        <li><strong>ئەنجام:</strong> لە 49.8% دیقەت دەوەستا و سەگ و پشیلەی تێکەڵ دەکرد.</li>
+                    </ul>
                 </div>
-                <div class="card">
-                    <div class="card-title">٢. فەنکشنی کاراکردنی پێشکەوتوو (GELU)</div>
-                    <div style="font-family: monospace; font-size: 1.15rem; color: #34d399; margin-bottom: 0.5rem;">GELU(x) = x * Phi(x) = x * P(X &le; x)</div>
-                    <div class="card-text">لەبەر ئەوەی بە پێچەوانەی ReLU گرادیێنتی نەرێنییە بچووکەکان بە نەرمی دەهێڵێتەوە، ڕێگری کرد لە مردنی نۆدەکان (Dying ReLU Problem).</div>
-                </div>
-                <div class="card">
-                    <div class="card-title">٣. هاوکێشەی سۆفتماکس (Multi-Class Softmax)</div>
-                    <div style="font-family: monospace; font-size: 1.15rem; color: #fbbf24; margin-bottom: 0.5rem;">P(class c) = exp(z_c) / &Sigma; exp(z_j)</div>
-                    <div class="card-text">لۆجیتسە خاوەکان دەگۆڕێت بۆ دابەشبوونی ئەگەر لە نێوان [0, 1] بە جۆرێک کە کۆی هەر ٥ ئەگەرەکە یەکسان دەبێت بە 1.0 (100%).</div>
-                </div>
-                <div class="card">
-                    <div class="card-title">٤. فەنکشنی هەڵە (Cross-Entropy Loss)</div>
-                    <div style="font-family: monospace; font-size: 1.15rem; color: #f87171; margin-bottom: 0.5rem;">Loss = - &Sigma; q_c * log(p_c)</div>
-                    <div class="card-text">بەکارهێنانی Label Smoothing ($\alpha=0.08$) ناهێڵێت مۆدێل کێشەکانی لەسەر پۆلێک تووشی لەبەرکردنی لەڕادەبەدەر (Overconfidence) ببن.</div>
+                <div class="card green">
+                    <div class="card-title" style="color: #34d399;">🚀 تەلارسازی مۆدێلی نوێ (Deep Res-MLP ANN)</div>
+                    <ul class="feature-list">
+                        <li><strong>شێوازی ئینپوت:</strong> دەرهێنانی وێکتەری مانایی 1,280 ڕەهەند.</li>
+                        <li><strong>چینەکان:</strong> ٧ چینی قووڵ: 1280 &rarr; 512 &rarr; Res-Block(512-256-512) &rarr; 256 &rarr; 128 &rarr; 5.</li>
+                        <li><strong>تایبەتمەندییەکان:</strong> Skip Connection ($x + \mathcal{F}(x)$)، LayerNorm، و GELU.</li>
+                        <li><strong>ئەنجام:</strong> دیقەت گەیشتە 87.33% و جیاکردنەوەی تەواوی سەگ لە پشیلە!</li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <!-- SLIDE 6 -->
-        <div class="slide" data-index="6" data-note="ئەمە خۆشترین بەشی پرێزنتەیشنەکەیە: وێنەی سەگێک هەنگاو بە هەنگاو بەناو ژمارەکاندا دەبەین تا دەگاتە سۆفتماکس و دەبێتە سەگ بە ڕێژەی ٨٩.٦٪ دڵنیایی.">
-            <div class="slide-tag">سڵایدی ٦: تاقیکردنەوەی تێنسەر</div>
-            <h1 class="slide-title">لە پیکسڵەوە بۆ بڕیار — گەشتی بیرکاری وێنەی سەگ (0 بۆ 100)</h1>
+        <div class="slide" data-index="6" data-note="هۆکاری زانستی شکستپێهێنانی مۆدێلە تەختەکە: کاتێک وێنە تەخت دەکرێت، پیکسڵە دراوسێکان ونی یەک دەبن. مۆدێلە نوێکەمان ئەم کێشەیەی بە تەواوی چارەسەر کرد.">
+            <div class="slide-tag">سڵایدی ٦: شیکاری تەکنیکی جیاوازییەکان</div>
+            <h1 class="slide-title">کێشەی پیکسڵی خاو و هۆکاری باڵادەستی تەلارسازییە نوێکە</h1>
             
             <div class="card highlight">
                 <ul class="feature-list" style="font-size: 1.05rem;">
-                    <li><strong>قۆناغی چوونەژوورەوە:</strong> وێنەی سەگ ($800 \times 600$) لە دیسکەوە دەخوێندرێتەوە و ڕێکدەخرێت بۆ $128 \times 128 \times 3$.</li>
-                    <li><strong>ئاساییکردنەوە:</strong> پیکسڵەکان سفر-مەرکەزی دەکرێن بە $\frac{x - \mu}{\sigma}$ بەپێی کەناڵەکانی سوور و سەوز و شین.</li>
-                    <li><strong>وێکتەری مانایی:</strong> تێنسەرەکە تەخت دەکرێت بۆ وێکتەری $1 \times 1280$ نۆدی تایبەتمەندی (e).</li>
-                    <li><strong>لێکدانی ماتریکسی:</strong> $z_1 = e W_1^T + b_1$ تێپەڕین بەناو ٥١٢ و ٢٥٦ و ١٢٨ نۆد لەگەڵ بلۆکی بازدەر $x + F(x)$.</li>
-                    <li><strong>لۆجیتسی خاو:</strong> پاش لێکدانی چینی کۆتایی، پێنج ژمارەی خاو بەرهەمدێن:<br>
-                        <code style="background: #0f172a; padding: 4px 8px; border-radius: 4px; color: #38bdf8;">z = [Bird: -1.45, Cat: +0.82, Dog: +3.28, Horse: -0.95, Human: -1.70]</code>
+                    <li><strong>١. لەدەستچوونی پەیوەندی شوێنی (Spatial Locality Breakdown):</strong><br>
+                        لە مۆدێلی تەختدا، 49,152 نۆدەکە نەیاندەزانی کام پیکسڵ لە تەنیشت کام پیکسڵە. ئەگەر سەگێک تۆزێک بجوڵایە، تەواوی بەهای نۆدەکان دەگۆڕان و مۆدێل تووشی شۆک دەبوو.
                     </li>
-                    <li><strong>دەرئەنجامی Softmax:</strong> لەبەر ئەوەی $e^{3.28} \approx 26.58$ دەبێت و زۆر بەسەر هەموواندا زاڵە:<br>
-                        <span style="color: #4ade80; font-weight: bold;">P(Dog) = 89.6% 🐶</span> | P(Cat) = 7.7% | P(Horse) = 1.3% | P(Bird) = 0.8% | P(Human) = 0.6%
+                    <li><strong>٢. چۆن تەلارسازییە نوێکە چارەسەری کرد؟ (Semantic Invariance):</strong><br>
+                        بە بەکارهێنانی وێکتەری مانایی، وێنەکە لەسەر ئاستی ئەندام و شێوەکان دەخوێندرێتەوە (وەک: ئایا پۆزە و گوێ و فەروو هەیە؟) بێ گوێدانە شوێنی پیکسڵەکە.
                     </li>
-                    <li><strong>بڕیاری کۆتایی:</strong> بە فەنکشنی $\arg\max$ پۆلی دووەم هەڵدەبژێردرێت ──► <strong>سەگ (Dog)</strong> بە دڵنیایی تەواو!</li>
+                    <li><strong>٣. چارەسەری تێکەڵبوونی سەگ و پشیلە (Dog vs Cat Resolution):</strong><br>
+                        سەگ و پشیلە هەردووکیان فەروو و چوارپەلیان هەیە. لە مۆدێلی کۆندا سەگ تەنها 43.3% بوو! بەڵام تەلارسازییە نوێکە بەهۆی قووڵایی ٧ چینی Res-MLP جیاوازی شێوەی پۆزەی سەگی لە دەموچاوی خڕی پشیلە جیاکردەوە و وردبینی سەگی گەیاندە <strong>86.5%</strong> و پشیلەی گەیاندە <strong>90.2%</strong>!
+                    </li>
                 </ul>
             </div>
         </div>
 
         <!-- SLIDE 7 -->
-        <div class="slide" data-index="7" data-note="ستراتیژی مەشق: سوودوەرگرتن لە فرە-سەرەداوی CPU، ئۆپتیمایزەری AdamW بۆ ڕێکخستنی کێشەکان، و خاوکردنەوەی شەپۆلی کۆساین کە هەڵەکەی لە ١.٠٨ەوە هێنایە خوارەوە بۆ ٠.٣٠.">
-            <div class="slide-tag">سڵایدی ٧: ستراتیژی مەشق</div>
-            <h1 class="slide-title">ستراتیژی مەشقپێکردن، ئۆپتیمایزەیشن و فێربوون</h1>
+        <div class="slide" data-index="7" data-note="نهێنی ماتماتیکی سەرکەوتنمان لێرەدایە: هاوکێشەی بازدان کە ڕێگری لە ونبوونی گرادیێنت دەکات، و فەنکشنی GELU کە ڕێگری لە مردنی نۆدەکان دەکات.">
+            <div class="slide-tag">سڵایدی ٧: بیرکاری مۆدێل</div>
+            <h1 class="slide-title">نهێنییە بیرکارییەکان: Skip Connection و فەنکشنی GELU</h1>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">١. یاسای بازدانی گرادیێنت (Skip Connection)</div>
+                    <div style="font-family: monospace; font-size: 1.15rem; color: #60a5fa; margin-bottom: 0.5rem;">y = GELU( x + F(x, {W}) )</div>
+                    <div class="card-text">لە کاتی Backpropagation دا گرادیێنت دەبێتە: $\frac{\partial \mathcal{L}}{\partial x} = \frac{\partial \mathcal{L}}{\partial y} (I + \frac{\partial F}{\partial x})$. بوونی ماتریکسی یەکە ($I$) پردێکی ڕاستەوخۆ دەپارێزێت تا گرادیێنت قەت نەبێتە صفر (ڕێگری لە Vanishing Gradient).</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">٢. فەنکشنی کاراکردنی پێشکەوتوو (GELU)</div>
+                    <div style="font-family: monospace; font-size: 1.15rem; color: #34d399; margin-bottom: 0.5rem;">GELU(x) = x * Phi(x) = x * P(X &le; x)</div>
+                    <div class="card-text">لە جیاتی ReLU کە هەموو بەها نەرێنییەکان ڕەق دەکوژێتەوە و نۆدەکان دەمرن (Dying ReLU)، فەنکشنی GELU لارییەکی نەرم دەهێڵێتەوە کە زۆر یارمەتیدەرە لە ناسینەوەی فەروو و چاوی پشیلە و سەگدا.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8 -->
+        <div class="slide" data-index="8" data-note="هاوسەنگکردنی داتا: بەکارهێنانی ڕێک ٦٠٠ وێنە بۆ مەشق و ١٥٠ بۆ تاقیکردنەوە بۆ هەموو پۆلەکان تا مۆدێلەکە لایەنگری پۆلە زۆرەکان نەکات.">
+            <div class="slide-tag">سڵایدی ٨: ئەندازیاری داتا</div>
+            <h1 class="slide-title">ستراتیژی هاوسەنگکردنی داتا و پاراستنی بێلایەنی (Class Balancing)</h1>
+            
+            <div class="grid-3" style="margin-bottom: 1.5rem;">
+                <div class="card highlight">
+                    <div class="card-title">📊 دابەشبوونی یەکسان</div>
+                    <div style="font-size: 1.8rem; font-weight: bold; color: #60a5fa;">600 Train / 150 Test</div>
+                    <div class="card-text">بۆ هەر ٥ پۆلەکە لە مەشق و تاقیکردنەوە</div>
+                </div>
+                <div class="card green">
+                    <div class="card-title">🛡️ سفربوونی لایەنگری</div>
+                    <div style="font-size: 1.8rem; font-weight: bold; color: #34d399;">Zero Class Bias</div>
+                    <div class="card-text">پاراستنی تەواوی بێلایەنیی فێربوون</div>
+                </div>
+                <div class="card amber">
+                    <div class="card-title">⚡ خێرایی مەشق</div>
+                    <div style="font-size: 1.8rem; font-weight: bold; color: #fbbf24;">2,936 Train / 734 Test</div>
+                    <div class="card-text">کۆی داتای فەرمی هەڵسەنگاندن</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-text">
+                    • <strong>بۆچی ئەمە گرنگ بوو؟</strong> ئەگەر ۱۰,٠٠٠ وێنەی سەگ و ٦٧٠ وێنەی ئەسپ بەبێ هاوسەنگکردن بدرابایە بە تۆڕەکە، تۆڕەکە فێری لایەنگری دەبوو و هەمیشە دەیوت سەگ! بەڵام بە جێبەجێکردنی <strong>Balanced Subsetting</strong>، زامنی ئەوە کرا کە هەموو پۆلەکان دەرفەتی یەکسانی فێربوونیان هەبێت.
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9 -->
+        <div class="slide" data-index="9" data-note="ئەمە خۆشترین بەشە: نموونەی وێنەی سەگێک هەنگاو بە هەنگاو بەناو کێشەکان و لادانەکانی هەموو لێیەرەکاندا لێکدەدرێتەوە تا دەگاتە سۆفتماکس و دەبێتە سەگ بە ڕێژەی ٨٩.٦٪.">
+            <div class="slide-tag">سڵایدی ٩: تاقیکردنەوەی تێنسەر</div>
+            <h1 class="slide-title">لە پیکسڵەوە بۆ بڕیار — گەشتی بیرکاری وێنەی سەگ (0 بۆ 100)</h1>
+            
+            <div class="card highlight">
+                <ul class="feature-list" style="font-size: 1.02rem;">
+                    <li><strong>١. ئینپوت و ئاساییکردنەوە:</strong> وێنەی سەگ ($800 \times 600$) لە دیسکەوە دەخوێندرێتەوە و ڕێکدەخرێت بۆ $128 \times 128 \times 3$ و سفر-مەرکەزی دەکرێت.</li>
+                    <li><strong>٢. دەرهێنانی وێکتەر:</strong> دەبێتە وێکتەری یەک-ڕەهەندی بە درێژیی ۱,۲۸۰ نۆد ($e$).</li>
+                    <li><strong>٣. لێکدانی ماتریکسی لە چینەکاندا:</strong> $z_1 = e W_1^T + b_1$ بەناو ٥١٢ و ٢٥٦ و ١٢٨ نۆد بە بلۆکی بازدەر $x + F(x)$دا تێدەپەڕێت.</li>
+                    <li><strong>٤. لۆجیتسی خاو:</strong> پێنج ژمارەی لۆجیتسی خاو بەرهەمدێن:<br>
+                        <code style="background: #0f172a; padding: 4px 8px; border-radius: 4px; color: #38bdf8;">z = [Bird: -1.45, Cat: +0.82, Dog: +3.28, Horse: -0.95, Human: -1.70]</code>
+                    </li>
+                    <li><strong>٥. دەرئەنجامی Softmax:</strong> لەبەر ئەوەی $e^{3.28} \approx 26.58$ دەبێت و زۆر بەسەر هەموواندا زاڵە:<br>
+                        <span style="color: #4ade80; font-weight: bold;">P(Dog) = 89.6% 🐶</span> | P(Cat) = 7.7% | P(Horse) = 1.3% | P(Bird) = 0.8% | P(Human) = 0.6%
+                    </li>
+                    <li><strong>٦. بڕیاری کۆتایی:</strong> بە فەنکشنی $\arg\max$ مۆدێلەکە بڕیار دەدات کە ئەمە <strong>سەگە (Dog)</strong> بە دڵنیایی تەواوەوە!</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SLIDE 10 -->
+        <div class="slide" data-index="10" data-note="بەڵگەی سەلماندنی فرە-پۆل: ۵ پۆلی جیاواز، ۵ نۆدی دەرچوون، Softmax و Categorical Cross-Entropy. هەروەها ڕوونکردنەوەی تەنە دەرەکییەکان بە Confidence Threshold.">
+            <div class="slide-tag">سڵایدی ١٠: بنەماکانی فرە-پۆل</div>
+            <h1 class="slide-title">میکانیزمی بڕیاردانی فرە-پۆل و تەنە نەناسراوەکان (Multi-Class)</h1>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">🔍 بەڵگەکانی فرە-پۆل (Multi-Class)</div>
+                    <ul class="feature-list">
+                        <li><strong>پۆلەکان (C = 5):</strong> پێنج پۆلی سەربەخۆ: مرۆڤ، سەگ، پشیلە، باڵندە، ئەسپ.</li>
+                        <li><strong>چینی دەرچوون:</strong> لە جیاتی ۱ نۆدی باینەری، خاوەنی ٥ نۆدە: <code>Linear(128, 5)</code>.</li>
+                        <li><strong>فەنکشنی Softmax:</strong> ئەگەرەکان بەسەر ٥ پۆلدا دابەش دەکات تا کۆی هەموویان ببێتە ١٠٠٪.</li>
+                        <li><strong>فەنکشنی هەڵە:</strong> بەکارهێنانی Categorical Cross-Entropy Loss نەک باینەری.</li>
+                    </ul>
+                </div>
+                <div class="card amber">
+                    <div class="card-title">❓ وێنەی تەنێکی دەرەکی (وەک ئۆتۆمبێل) بدرێتێ؟</div>
+                    <ul class="feature-list">
+                        <li><strong>Closed-World Assumption:</strong> مۆدێل لەسەر ئەو ٥ پۆلە مەشقی پێکراوە، بۆیە ۱۰۰٪ی ئەگەرەکە بەسەر ئەو ٥ پۆلەدا دابەش دەکات.</li>
+                        <li><strong>چارەسەری ئەندازیاری ئێمە (Confidence Thresholding):</strong><br>
+                            کاتێک تەنێکی نەناسراو دەدرێتێ، ئەگەرەکان پەرت دەبن و دڵنیاییەکەی ناگاتە ٥٠٪. بە دانانی مەرجی (دڵنیایی < ٥٥٪)، سیستەمەکە ڕاستەوخۆ دەڵێت: <strong>'⚠️ تەنێکی نەناسراوە و لە دەرەوەی ۵ پۆلەکەیە (Unknown)'</strong>!
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11 -->
+        <div class="slide" data-index="11" data-note="ڕاهێنان بە فرە-سەرەداوی CPU، ئۆپتیمایزەری AdamW، و دابەزاندنی هەڵە بە Cosine Annealing لە ١.٠٨ەوە بۆ ٠.٣٠.">
+            <div class="slide-tag">سڵایدی ١١: ستراتیژی مەشق</div>
+            <h1 class="slide-title">ستراتیژی مەشقپێکردن، فرە-سەرەداوی و ئۆپتیمایزەیشن</h1>
             
             <div class="grid-3">
                 <div class="card">
@@ -518,7 +590,7 @@
                     <ul class="feature-list">
                         <li>مەشقپێکردنی تەریب لەسەر ٨ سەرەداوی پرۆسێسەری لاپتۆپ.</li>
                         <li>قەبارەی باچ (Batch Size): 64 وێنە.</li>
-                        <li>تەواوبوونی مەشقی تەواوی ۱۰ خول لە چەند خولەکێکدا.</li>
+                        <li>تەواوبوونی مەشقی تەواوی ۱۰ خول لە کەمتر لە چەند خولەکێکدا.</li>
                     </ul>
                 </div>
                 <div class="card highlight">
@@ -534,15 +606,15 @@
                     <ul class="feature-list">
                         <li>کەمبوونەوەی نەرمی خێرایی فێربوون لەسەر شێوەی شەپۆلی کۆساین.</li>
                         <li>دابەزینی هەڵە: لە <strong>1.08</strong>ەوە بۆ <strong>0.30</strong>.</li>
-                        <li>دیقەتی فێربوون: گەیشتە <strong>97.10%</strong>.</li>
+                        <li>دیقەتی مەشق: گەیشتە <strong>97.10%</strong>.</li>
                     </ul>
                 </div>
             </div>
         </div>
 
-        <!-- SLIDE 8 -->
-        <div class="slide" data-index="8" data-note="ئەمە سڵایدی بەڵگەی سەلماندنە: خشتەی بەراوردکاری فەرمی کە پیشانی دەدات دیقەتی گشتی بە ڕێژەی +٣٧.٥٪ بەرزبووەوە و وردبینی سەگ و پشیلە گەیشتە سەرووی ٨٦٪ و ٩٠٪.">
-            <div class="slide-tag">سڵایدی ٨: ئەنجامە فەرمییەکان</div>
+        <!-- SLIDE 12 -->
+        <div class="slide" data-index="12" data-note="بەڵگەی فەرمی سەرکەوتن: دیقەتی تاقیکردنەوە بە ڕێژەی +٣٧.٥٪ زیادی کرد و وردبینی سەگ و پشیلە گەیشتە سەرووی ٨٦٪ و ٩٠٪.">
+            <div class="slide-tag">سڵایدی ١٢: ئەنجامە فەرمییەکان</div>
             <h1 class="slide-title">ئەنجامە فەرمییەکان و بەراوردکاری سەرکەوتنی مۆدێلەکە</h1>
             
             <div class="grid-2">
@@ -573,9 +645,9 @@
             </div>
         </div>
 
-        <!-- SLIDE 9 -->
-        <div class="slide" data-index="9" data-note="لەم سڵایدەدا دەتوانین ئەپڵیکەیشنەکەیان پیشان بدەین کە چەند کردارییە: لەگەڵ بەستنی کامێرای لاپتۆپ و تاقیکردنەوەی ڕاستەوخۆ بە یەک کلیک لە ڕێگەی run_app.bat.">
-            <div class="slide-tag">سڵایدی ٩: وێب ئەپڵیکەیشن</div>
+        <!-- SLIDE 13 -->
+        <div class="slide" data-index="13" data-note="ئەپڵیکەیشنەکەیان پیشان بدە کە بە یەک کلیک لە run_app.bat دەکرێتەوە و لەبەردەم لیژنەدا بە کامێرای لاپتۆپ مرۆڤ بناسێنەوە.">
+            <div class="slide-tag">سڵایدی ١٣: وێب ئەپڵیکەیشن</div>
             <h1 class="slide-title">ڕووکاری کارلێککاری وێب ئەپ (Streamlit Web App)</h1>
             
             <div class="grid-2">
@@ -585,7 +657,7 @@
                 </div>
                 <div class="card green">
                     <div class="card-title">📸 کامێرای ڕاستەوخۆ (Webcam Live Test)</div>
-                    <div class="card-text">ڕاستەوخۆ دەتوانین کامێرای لاپتۆپەکە بکەینەوە و وێنەی خۆمان بگرین؛ مۆدێلەکە بە سەرووی ٩٧٪ دەڵێت: <strong>مرۆڤ (Human)</strong>!</div>
+                    <div class="card-text">ڕاستەوخۆ دەتوانین کامێرای لاپتۆپەکە بکەینەوە و وێنەی خۆمان بگرین؛ مۆدێلەکە بە سەرووی ۹۷٪ دەڵێت: <strong>مرۆڤ (Human)</strong>!</div>
                 </div>
                 <div class="card">
                     <div class="card-title">🖼️ وێنەی نموونەیی (Sample Gallery)</div>
@@ -598,9 +670,9 @@
             </div>
         </div>
 
-        <!-- SLIDE 10 -->
-        <div class="slide" data-index="10" data-note="سڵایدی کۆتایی: ڕێبەری تەواوی وەڵامدانەوەی پرسیارەکانی لیژنەی هەڵسەنگاندن لە کاتی مناقەشەدا بۆ بەدەستهێنانی نمرەی تەواو.">
-            <div class="slide-tag">سڵایدی ١٠: ئەنجامگیری و پرسیارەکانی لیژنە</div>
+        <!-- SLIDE 14 -->
+        <div class="slide" data-index="14" data-note="سڵایدی کۆتایی: ڕێبەری تەواوی وەڵامدانەوەی پرسیارەکانی لیژنەی هەڵسەنگاندن بۆ دەستەبەرکردنی بەرزترین نمرە.">
+            <div class="slide-tag">سڵایدی ١٤: ئەنجامگیری و بەرگری</div>
             <h1 class="slide-title">ئەنجامگیری و ڕێبەری بەرگری (Viva Defense Guide)</h1>
             
             <div class="grid-3">
@@ -610,7 +682,7 @@
                 </div>
                 <div class="card highlight">
                     <div class="card-title">پ٢: تەنێکی جیاواز بدرێتێ؟</div>
-                    <div class="card-text"><strong>وەڵام:</strong> بەپێی Closed-World مۆدێلەکە ئەگەرەکان دابەش دەکات. بە دانانی ئاستی دڵنیایی (Threshold کەمتر لە ٥٥٪)، سیستەم دەڵێت تەنەکە نەناسراوە (Unknown).</div>
+                    <div class="card-text"><strong>وەڵام:</strong> بەپێی Closed-World مۆدێلەکە ئەگەرەکان دابەش دەکات. بەڵام بە دانانی ئاستی دڵنیایی (Threshold کەمتر لە ٥٥٪)، دەوترێت 'تەنی نەناسراو (Unknown)'.</div>
                 </div>
                 <div class="card amber">
                     <div class="card-title">پ٣: دەوری داهێنانی Res-MLP؟</div>
@@ -618,7 +690,7 @@
                 </div>
             </div>
 
-            <div style="text-align: center; margin-top: 2rem;">
+            <div style="text-align: center; margin-top: 1.8rem;">
                 <span style="font-size: 1.3rem; font-weight: bold; color: #4ade80;">سوپاس بۆ سەرنج و گوێگرتنتان — ئامادەم بۆ پرسیارەکانتان 🎓</span>
             </div>
         </div>
@@ -634,7 +706,6 @@
         </div>
     </div>
 
-    <!-- Controls Bottom Bar -->
     <div class="bottom-bar">
         <button class="btn secondary" id="prevBtn" onclick="changeSlide(-1)">← سڵایدی پێشوو</button>
         <button class="btn" id="nextBtn" onclick="changeSlide(1)">سڵایدی داهاتوو →</button>
@@ -642,7 +713,7 @@
 
     <script>
         let currentSlideIndex = 1;
-        const totalSlides = 10;
+        const totalSlides = 14;
 
         function showSlide(index) {
             if (index < 1) index = 1;
@@ -674,7 +745,6 @@
             }
         });
 
-        // Initialize
         showSlide(1);
     </script>
 </body>
