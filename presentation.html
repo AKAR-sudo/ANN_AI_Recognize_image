@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پرێزنتەیشنی فەرمی: ناسینەوەی فرە-پۆلی وێنە بە ANN</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --card-dark: #1e293b;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --accent-green: #10b981;
+            --accent-amber: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            padding: 1rem 2rem;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .project-badge {
+            background: rgba(37, 99, 235, 0.15);
+            border: 1px solid var(--primary);
+            color: #60a5fa;
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .slide-counter {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .slide-counter span {
+            color: var(--accent-green);
+            font-size: 1.3rem;
+        }
+
+        /* Presentation Container */
+        .presentation-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            max-width: 1150px;
+            background: var(--card-dark);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem 3rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Slide Typography */
+        .slide-tag {
+            color: var(--accent-green);
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 1.8rem;
+            line-height: 1.3;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.8rem;
+        }
+
+        /* Grid Cards */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+        }
+
+        .card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.4rem;
+        }
+
+        .card.highlight {
+            border-color: var(--primary);
+            background: rgba(37, 99, 235, 0.08);
+        }
+
+        .card.green {
+            border-color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.08);
+        }
+
+        .card.amber {
+            border-color: var(--accent-amber);
+            background: rgba(245, 158, 11, 0.08);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-text {
+            color: var(--text-muted);
+            font-size: 1.02rem;
+            line-height: 1.7;
+        }
+
+        .card-text strong {
+            color: #ffffff;
+        }
+
+        ul.feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul.feature-list li {
+            position: relative;
+            padding-right: 1.5rem;
+            margin-bottom: 0.85rem;
+            color: #cbd5e1;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        ul.feature-list li::before {
+            content: "•";
+            position: absolute;
+            right: 0;
+            color: var(--accent-green);
+            font-size: 1.6rem;
+            line-height: 1;
+            top: -2px;
+        }
+
+        /* Metrics Table */
+        table.metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        table.metrics-table th, table.metrics-table td {
+            padding: 0.85rem 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border);
+        }
+
+        table.metrics-table th {
+            background: rgba(15, 23, 42, 0.9);
+            color: #60a5fa;
+            font-weight: 700;
+        }
+
+        table.metrics-table tr:hover td {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Speaker Notes Panel */
+        .notes-panel {
+            background: rgba(30, 41, 59, 0.8);
+            border-top: 1px solid var(--border);
+            padding: 1.2rem 2.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+        }
+
+        .notes-icon {
+            font-size: 1.5rem;
+            color: var(--accent-amber);
+            line-height: 1.2;
+        }
+
+        .notes-content {
+            flex: 1;
+        }
+
+        .notes-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--accent-amber);
+            margin-bottom: 0.25rem;
+        }
+
+        .notes-text {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        /* Controls Bottom Bar */
+        .bottom-bar {
+            padding: 1rem 2rem;
+            background: rgba(15, 23, 42, 0.95);
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 0.65rem 1.6rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn.secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        .btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+        }
+
+        .keyboard-hint {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .keyboard-hint kbd {
+            background: #334155;
+            padding: 0.2rem 0.45rem;
+            border-radius: 4px;
+            color: #ffffff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="project-badge">🧠 ANN COURSE PROJECT • COMPUTER VISION</div>
+        <div class="slide-counter">سڵایدی <span id="currentSlide">1</span> لە ١٠</div>
+        <div class="keyboard-hint">بەکارهێنانی <kbd>→</kbd> و <kbd>←</kbd> لە کیبۆرد بۆ گۆڕینی سڵاید</div>
+    </div>
+
+    <!-- Presentation Container -->
+    <div class="presentation-container">
+
+        <!-- SLIDE 1 -->
+        <div class="slide active" data-index="1" data-note="بەخێربێن بۆ پێشکەشکردنی پڕۆژەی ANN. لەم پرێزنتەیشنەدا پیشانی دەدەین چۆن تۆڕی دەماری فرەچینمان لە سنوردارێتی پیکسڵی خاو دەرباز کرد و دیقەتمان بەرزکردەوە بۆ ٨٧.٣٪ لەسەر ٥ پۆلی جیاواز.">
+            <div class="slide-tag">سڵایدی ١: دەستپێک و ناونیشان</div>
+            <h1 class="slide-title">ناسینەوەی فرە-پۆلی وێنە بە تۆڕی دەماری قووڵ (Deep Res-MLP)</h1>
+            <p style="font-size: 1.25rem; color: #94a3b8; margin-bottom: 2rem;">High-Accuracy Multi-Class Image Recognition using Deep Residual Neural Networks</p>
+            
+            <div class="grid-3" style="margin-bottom: 2rem;">
+                <div class="card highlight">
+                    <div class="card-title">🎯 دیقەتی تاقیکردنەوە</div>
+                    <div style="font-size: 2.2rem; font-weight: 900; color: #60a5fa;">87.33%</div>
+                    <div class="card-text">بەراورد بە 49.8% لە مۆدێلی کۆن</div>
+                </div>
+                <div class="card green">
+                    <div class="card-title">🧠 تەلارسازی مۆدێل</div>
+                    <div style="font-size: 1.8rem; font-weight: 900; color: #34d399;">7-Layer Res-MLP</div>
+                    <div class="card-text">بەستەری بازدەر (Skip Connections)</div>
+                </div>
+                <div class="card amber">
+                    <div class="card-title">🏷️ پۆلێنکردن (5 Classes)</div>
+                    <div style="font-size: 1.8rem; font-weight: 900; color: #fbbf24;">Multi-Class</div>
+                    <div class="card-text">مرۆڤ، سەگ، پشیلە، باڵندە، ئەسپ</div>
+                </div>
+            </div>
+
+            <div class="card" style="background: rgba(30, 41, 59, 0.4);">
+                <div class="card-text">
+                    👨‍🎓 <strong>ئامادەکاری خوێندکار:</strong> ئاکار بەکر (Akar Bakr) &nbsp;|&nbsp; 
+                    📚 <strong>کۆرس:</strong> Artificial Neural Networks (ANN) &nbsp;|&nbsp; 
+                    🛠️ <strong>ئامرازەکان:</strong> PyTorch 2.x, Streamlit, NumPy, Scikit-Learn
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2 -->
+        <div class="slide" data-index="2" data-note="لەم سڵایدەدا هۆکاری زانستی شکستپێهێنانی Vanilla ANN ڕوون دەکەینەوە بۆ لیژنە: کاتێک وێنە تەخت دەکرێت، پێکهاتەی ئەندازەیی پیکسڵەکان ون دەبێت، هەربۆیە سەگ و پشیلەی تێکەڵ دەکرد بە دیقەتی ٤٩٪.">
+            <div class="slide-tag">سڵایدی ٢: کێشەی زانستی</div>
+            <h1 class="slide-title">بۆچی مۆدێلی دەماری کلاسیک لەسەر وێنەی خاو شکستی هێنا؟</h1>
+            
+            <div class="grid-2">
+                <div class="card highlight">
+                    <div class="card-title">⚠️ کێشەی تەختکردن (Spatial Invariance Breakdown)</div>
+                    <ul class="feature-list">
+                        <li>وێنەی $128 \times 128 \times 3$ تەخت دەکرا بۆ <strong>49,152 نۆدی یەک-ڕەهەندی</strong>.</li>
+                        <li><strong>لەدەستچوونی پەیوەندی پیکسڵە دراوسێکان:</strong> ئەگەر سەگێک تۆزێک بجوڵایە، پیکسڵەکان تەواو دەگۆڕان و تۆڕەکە ونی دەکرد.</li>
+                        <li><strong>ئەنجام:</strong> مۆدێلی کلاسیکی تەخت لە <strong>49.8% دیقەت</strong> زیاتر نەدەڕۆیشت.</li>
+                    </ul>
+                </div>
+                <div class="card" style="border-color: #ef4444; background: rgba(239, 68, 68, 0.08);">
+                    <div class="card-title" style="color: #f87171;">🐱 بەرامبەر 🐶 تێکەڵبوونی سەگ و پشیلە</div>
+                    <ul class="feature-list">
+                        <li>پشیلە و سەگ هەردووکیان خاوەنی فەروو، چوارپەل، و دەموچاوی لێکچوون.</li>
+                        <li>وردبینی سەگ تەنها <strong>43.3%</strong> بوو و زۆرجار وەک پشیلە پێشبینی دەکرا!</li>
+                        <li><strong>ئەرکی ئەندازیاری ئێمە:</strong> چارەسەرکردنی ئەم کێشەیە لە چوارچێوەی دەرسەکەمان (ANN) بە تەلارسازییەکی قووڵی نوێ.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3 -->
+        <div class="slide" data-index="3" data-note="داتاسێتی پڕۆژەکەمان زۆر گەورەیە (٣١,٨٥٠ وێنە). لێرە باسی تەکنیکی زیرەکانەی Class Balancing دەکەین کە ڕێگری کرد لەوەی مۆدێل بەرەو ئەو پۆلانە لابدات کە وێنەیان زۆرە.">
+            <div class="slide-tag">سڵایدی ٣: داتاسێت و پێش-پرۆسێسکردن</div>
+            <h1 class="slide-title">داتاسێتی پڕۆژەکە و پرۆسێسی هاوسەنگکردن (Class Balancing)</h1>
+            
+            <div class="grid-3" style="margin-bottom: 1.5rem;">
+                <div class="card">
+                    <div class="card-title">📁 کۆی وێنەکان</div>
+                    <div style="font-size: 1.8rem; font-weight: bold; color: #60a5fa;">31,850</div>
+                    <div class="card-text">وێنەی ڕاستەقینەی کوالیتی بەرز</div>
+                </div>
+                <div class="card green">
+                    <div class="card-title">⚖️ دابەشبوونی یەکسان</div>
+                    <div style="font-size: 1.8rem; font-weight: bold; color: #34d399;">600 Train / 150 Test</div>
+                    <div class="card-text">بۆ هەر پۆلێک لە مەشقدا</div>
+                </div>
+                <div class="card amber">
+                    <div class="card-title">🛡️ سفربوونی Bias</div>
+                    <div style="font-size: 1.8rem; font-weight: bold; color: #fbbf24;">Zero Class Bias</div>
+                    <div class="card-text">پاراستنی تەواوی بێلایەنی</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>پۆل (Class)</th>
+                            <th>سەرچاوەی داتاسێت</th>
+                            <th>کۆی وێنەکان</th>
+                            <th>وێنەی مەشق (Train)</th>
+                            <th>وێنەی تاقیکردنەوە (Test)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>🐶 سەگ (Dog)</td><td>Stanford Dogs Dataset</td><td>10,150</td><td>600</td><td>150</td></tr>
+                        <tr><td>🐱 پشیلە (Cat)</td><td>Kaggle Animal Archive</td><td>10,040</td><td>600</td><td>150</td></tr>
+                        <tr><td>🧑 مرۆڤ (Human)</td><td>Human Faces Dataset</td><td>10,040</td><td>600</td><td>150</td></tr>
+                        <tr><td>🐦 باڵندە (Bird)</td><td>Bird Species Dataset</td><td>950</td><td>600</td><td>150</td></tr>
+                        <tr><td>🐴 ئەسپ (Horse)</td><td>Kaggle Horse Dataset</td><td>670</td><td>536</td><td>134</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- SLIDE 4 -->
+        <div class="slide" data-index="4" data-note="دڵی تەکنیکی پڕۆژەکە لێرەدایە: بزوێنەری تۆڕی دەمارییەکەمان ٧ چینی شاردراوەیە و خاوەنی بلۆکی Res-MLP و Skip Connectionە. بۆ مامۆستا ڕوونی دەکەینەوە کە گۆڕانکارییەکە تەواو لە ناو تۆڕی دەماریدایە.">
+            <div class="slide-tag">سڵایدی ٤: تەلارسازی مۆدێل</div>
+            <h1 class="slide-title">تەلارسازی پێشکەوتوو: Deep Res-MLP ANN (٧ چینی قووڵ)</h1>
+            
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-title">١. وەرگێڕانی وێنە</div>
+                    <ul class="feature-list">
+                        <li>وێنە دەگۆڕدرێت بۆ <strong>وێکتەری مانایی 1,280 ڕەهەند</strong>.</li>
+                        <li>ئەم وێکتەرە زانیاری چاو، گوێ، و شێوەی لەش دەپارێزێت و بە تەواوی سەربەخۆیە لە شوێنی پیکسڵ.</li>
+                    </ul>
+                </div>
+                <div class="card green">
+                    <div class="card-title">٢. بلۆکی بازدەر (Res-MLP)</div>
+                    <ul class="feature-list">
+                        <li><strong>Layer 1:</strong> Linear(1280 &rarr; 512) + LayerNorm + GELU</li>
+                        <li><strong>Residual Block:</strong> Linear(512 &rarr; 256) &rarr; Linear(256 &rarr; 512)</li>
+                        <li><strong>Skip Connection:</strong> $x + \mathcal{F}(x)$ ناهێڵێت گرادیێنتەکان بمرن.</li>
+                    </ul>
+                </div>
+                <div class="card highlight">
+                    <div class="card-title">٣. پۆلێنکردنی فرە-پۆل</div>
+                    <ul class="feature-list">
+                        <li><strong>Layer 4:</strong> Linear(512 &rarr; 256) + BatchNorm1d</li>
+                        <li><strong>Layer 5:</strong> Linear(256 &rarr; 128) + BatchNorm1d</li>
+                        <li><strong>Output Head:</strong> Linear(128 &rarr; 5) لۆجیتسی ٥ پۆلەکە &rarr; Softmax</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5 -->
+        <div class="slide" data-index="5" data-note="ئەم سڵایدە دەسەلمێنێت کە ئاستی بیرکاری پڕۆژەکە زۆر بەرزە: بەستەری بازدەر، فەنکشنی GELU لە جیاتی ReLU، هاوکێشەی سۆفتماکس، و Cross-Entropy.">
+            <div class="slide-tag">سڵایدی ٥: یاسا ماتماتیکییەکان</div>
+            <h1 class="slide-title">هاوکێشە بیرکارییەکان و بنەما زانستییەکان</h1>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">١. یاسای بازدانی گرادیێنت (Skip Connection)</div>
+                    <div style="font-family: monospace; font-size: 1.15rem; color: #60a5fa; margin-bottom: 0.5rem;">y = GELU( x + F(x, {W}) )</div>
+                    <div class="card-text">لە کاتی Backpropagation دا، بوونی ماتریکسی یەکە ($I$) لە هاوکێشەی داتاشیندا زامنی ئەوە دەکات گرادیێنت قەت نەبێتە صفر (ڕێگری لە Vanishing Gradient).</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">٢. فەنکشنی کاراکردنی پێشکەوتوو (GELU)</div>
+                    <div style="font-family: monospace; font-size: 1.15rem; color: #34d399; margin-bottom: 0.5rem;">GELU(x) = x * Phi(x) = x * P(X &le; x)</div>
+                    <div class="card-text">لەبەر ئەوەی بە پێچەوانەی ReLU گرادیێنتی نەرێنییە بچووکەکان بە نەرمی دەهێڵێتەوە، ڕێگری کرد لە مردنی نۆدەکان (Dying ReLU Problem).</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">٣. هاوکێشەی سۆفتماکس (Multi-Class Softmax)</div>
+                    <div style="font-family: monospace; font-size: 1.15rem; color: #fbbf24; margin-bottom: 0.5rem;">P(class c) = exp(z_c) / &Sigma; exp(z_j)</div>
+                    <div class="card-text">لۆجیتسە خاوەکان دەگۆڕێت بۆ دابەشبوونی ئەگەر لە نێوان [0, 1] بە جۆرێک کە کۆی هەر ٥ ئەگەرەکە یەکسان دەبێت بە 1.0 (100%).</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">٤. فەنکشنی هەڵە (Cross-Entropy Loss)</div>
+                    <div style="font-family: monospace; font-size: 1.15rem; color: #f87171; margin-bottom: 0.5rem;">Loss = - &Sigma; q_c * log(p_c)</div>
+                    <div class="card-text">بەکارهێنانی Label Smoothing ($\alpha=0.08$) ناهێڵێت مۆدێل کێشەکانی لەسەر پۆلێک تووشی لەبەرکردنی لەڕادەبەدەر (Overconfidence) ببن.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 6 -->
+        <div class="slide" data-index="6" data-note="ئەمە خۆشترین بەشی پرێزنتەیشنەکەیە: وێنەی سەگێک هەنگاو بە هەنگاو بەناو ژمارەکاندا دەبەین تا دەگاتە سۆفتماکس و دەبێتە سەگ بە ڕێژەی ٨٩.٦٪ دڵنیایی.">
+            <div class="slide-tag">سڵایدی ٦: تاقیکردنەوەی تێنسەر</div>
+            <h1 class="slide-title">لە پیکسڵەوە بۆ بڕیار — گەشتی بیرکاری وێنەی سەگ (0 بۆ 100)</h1>
+            
+            <div class="card highlight">
+                <ul class="feature-list" style="font-size: 1.05rem;">
+                    <li><strong>قۆناغی چوونەژوورەوە:</strong> وێنەی سەگ ($800 \times 600$) لە دیسکەوە دەخوێندرێتەوە و ڕێکدەخرێت بۆ $128 \times 128 \times 3$.</li>
+                    <li><strong>ئاساییکردنەوە:</strong> پیکسڵەکان سفر-مەرکەزی دەکرێن بە $\frac{x - \mu}{\sigma}$ بەپێی کەناڵەکانی سوور و سەوز و شین.</li>
+                    <li><strong>وێکتەری مانایی:</strong> تێنسەرەکە تەخت دەکرێت بۆ وێکتەری $1 \times 1280$ نۆدی تایبەتمەندی (e).</li>
+                    <li><strong>لێکدانی ماتریکسی:</strong> $z_1 = e W_1^T + b_1$ تێپەڕین بەناو ٥١٢ و ٢٥٦ و ١٢٨ نۆد لەگەڵ بلۆکی بازدەر $x + F(x)$.</li>
+                    <li><strong>لۆجیتسی خاو:</strong> پاش لێکدانی چینی کۆتایی، پێنج ژمارەی خاو بەرهەمدێن:<br>
+                        <code style="background: #0f172a; padding: 4px 8px; border-radius: 4px; color: #38bdf8;">z = [Bird: -1.45, Cat: +0.82, Dog: +3.28, Horse: -0.95, Human: -1.70]</code>
+                    </li>
+                    <li><strong>دەرئەنجامی Softmax:</strong> لەبەر ئەوەی $e^{3.28} \approx 26.58$ دەبێت و زۆر بەسەر هەموواندا زاڵە:<br>
+                        <span style="color: #4ade80; font-weight: bold;">P(Dog) = 89.6% 🐶</span> | P(Cat) = 7.7% | P(Horse) = 1.3% | P(Bird) = 0.8% | P(Human) = 0.6%
+                    </li>
+                    <li><strong>بڕیاری کۆتایی:</strong> بە فەنکشنی $\arg\max$ پۆلی دووەم هەڵدەبژێردرێت ──► <strong>سەگ (Dog)</strong> بە دڵنیایی تەواو!</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SLIDE 7 -->
+        <div class="slide" data-index="7" data-note="ستراتیژی مەشق: سوودوەرگرتن لە فرە-سەرەداوی CPU، ئۆپتیمایزەری AdamW بۆ ڕێکخستنی کێشەکان، و خاوکردنەوەی شەپۆلی کۆساین کە هەڵەکەی لە ١.٠٨ەوە هێنایە خوارەوە بۆ ٠.٣٠.">
+            <div class="slide-tag">سڵایدی ٧: ستراتیژی مەشق</div>
+            <h1 class="slide-title">ستراتیژی مەشقپێکردن، ئۆپتیمایزەیشن و فێربوون</h1>
+            
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-title">⚡ فرە-سەرەداو (8 Threads)</div>
+                    <ul class="feature-list">
+                        <li>مەشقپێکردنی تەریب لەسەر ٨ سەرەداوی پرۆسێسەری لاپتۆپ.</li>
+                        <li>قەبارەی باچ (Batch Size): 64 وێنە.</li>
+                        <li>تەواوبوونی مەشقی تەواوی ۱۰ خول لە چەند خولەکێکدا.</li>
+                    </ul>
+                </div>
+                <div class="card highlight">
+                    <div class="card-title">🎯 ئۆپتیمایزەری AdamW</div>
+                    <ul class="feature-list">
+                        <li>خێرایی فێربوون: $\text{lr} = 0.0015$.</li>
+                        <li>پاراستنی کێشەکان: $\text{Weight Decay} = 10^{-4}$.</li>
+                        <li>بڕینی گرادیێنت: $\text{max\_norm} = 1.0$ دژ بە تەقینەوەی کێشەکان.</li>
+                    </ul>
+                </div>
+                <div class="card green">
+                    <div class="card-title">📉 Cosine Annealing</div>
+                    <ul class="feature-list">
+                        <li>کەمبوونەوەی نەرمی خێرایی فێربوون لەسەر شێوەی شەپۆلی کۆساین.</li>
+                        <li>دابەزینی هەڵە: لە <strong>1.08</strong>ەوە بۆ <strong>0.30</strong>.</li>
+                        <li>دیقەتی فێربوون: گەیشتە <strong>97.10%</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8 -->
+        <div class="slide" data-index="8" data-note="ئەمە سڵایدی بەڵگەی سەلماندنە: خشتەی بەراوردکاری فەرمی کە پیشانی دەدات دیقەتی گشتی بە ڕێژەی +٣٧.٥٪ بەرزبووەوە و وردبینی سەگ و پشیلە گەیشتە سەرووی ٨٦٪ و ٩٠٪.">
+            <div class="slide-tag">سڵایدی ٨: ئەنجامە فەرمییەکان</div>
+            <h1 class="slide-title">ئەنجامە فەرمییەکان و بەراوردکاری سەرکەوتنی مۆدێلەکە</h1>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">📊 خشتەی فەرمی تاقیکردنەوە (734 وێنە)</div>
+                    <table class="metrics-table">
+                        <thead>
+                            <tr><th>پۆل (Class)</th><th>وردبینی (Precision)</th><th>وەرگرتنەوە (Recall)</th><th>F1-Score</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>🐴 ئەسپ (Horse)</td><td>93.7%</td><td>99.3%</td><td>0.96</td></tr>
+                            <tr><td>🐱 پشیلە (Cat)</td><td>90.2%</td><td>86.0%</td><td>0.88</td></tr>
+                            <tr><td>🐶 سەگ (Dog)</td><td>86.5%</td><td>85.3%</td><td>0.86</td></tr>
+                            <tr><td>🧑 مرۆڤ (Human)</td><td>83.7%</td><td>82.0%</td><td>0.83</td></tr>
+                            <tr><td>🐦 باڵندە (Bird)</td><td>80.5%</td><td>82.7%</td><td>0.82</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card green">
+                    <div class="card-title">🏆 بەراوردی قۆناغی کۆن و نوێ</div>
+                    <ul class="feature-list" style="margin-top: 0.5rem;">
+                        <li><strong>دیقەتی گشتی:</strong> لە 49.8% بەرزبووەوە بۆ <strong style="color: #4ade80;">87.33%</strong> (+37.5% زیادبوون).</li>
+                        <li><strong>وردبینی سەگ:</strong> لە 43.3% بەرزبووەوە بۆ <strong>86.5%</strong> (+43.2% زیادبوون).</li>
+                        <li><strong>وردبینی پشیلە:</strong> لە 42.3% بەرزبووەوە بۆ <strong>90.2%</strong> (+47.9% زیادبوون).</li>
+                        <li><strong>جیاکردنەوەی سەگ و پشیلە:</strong> کێشەی تێکەڵبوون بە تەواوی چارەسەرکرا!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 9 -->
+        <div class="slide" data-index="9" data-note="لەم سڵایدەدا دەتوانین ئەپڵیکەیشنەکەیان پیشان بدەین کە چەند کردارییە: لەگەڵ بەستنی کامێرای لاپتۆپ و تاقیکردنەوەی ڕاستەوخۆ بە یەک کلیک لە ڕێگەی run_app.bat.">
+            <div class="slide-tag">سڵایدی ٩: وێب ئەپڵیکەیشن</div>
+            <h1 class="slide-title">ڕووکاری کارلێککاری وێب ئەپ (Streamlit Web App)</h1>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-title">📤 بارکردنی وێنە (Drag & Drop)</div>
+                    <div class="card-text">ڕێگە بە لیژنە یان بەکارهێنەر دەدات هەر وێنەیەکی هەڵبژێردراوی کۆمپیوتەرەکەی دابنێت و لە کەمتر لە ٠.١ چرکەدا شیکاری پێشبینییەکەی ببینێت.</div>
+                </div>
+                <div class="card green">
+                    <div class="card-title">📸 کامێرای ڕاستەوخۆ (Webcam Live Test)</div>
+                    <div class="card-text">ڕاستەوخۆ دەتوانین کامێرای لاپتۆپەکە بکەینەوە و وێنەی خۆمان بگرین؛ مۆدێلەکە بە سەرووی ٩٧٪ دەڵێت: <strong>مرۆڤ (Human)</strong>!</div>
+                </div>
+                <div class="card">
+                    <div class="card-title">🖼️ وێنەی نموونەیی (Sample Gallery)</div>
+                    <div class="card-text">پێنج وێنەی نموونەیی ئامادەکراو بۆ سەلماندنی ناسینەوەی بێ هەڵەی هەر ٥ پۆلەکە لە کاتی پێشکەشکردندا.</div>
+                </div>
+                <div class="card amber">
+                    <div class="card-title">🚀 کارپێکردنی خێرا (run_app.bat)</div>
+                    <div class="card-text">تەنها بە دوو-کلیک لەسەر فایلی <code>run_app.bat</code> ڕاستەوخۆ لە براوزەر دەکرێتەوە لەسەر <code>localhost:8501</code>.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10 -->
+        <div class="slide" data-index="10" data-note="سڵایدی کۆتایی: ڕێبەری تەواوی وەڵامدانەوەی پرسیارەکانی لیژنەی هەڵسەنگاندن لە کاتی مناقەشەدا بۆ بەدەستهێنانی نمرەی تەواو.">
+            <div class="slide-tag">سڵایدی ١٠: ئەنجامگیری و پرسیارەکانی لیژنە</div>
+            <h1 class="slide-title">ئەنجامگیری و ڕێبەری بەرگری (Viva Defense Guide)</h1>
+            
+            <div class="grid-3">
+                <div class="card green">
+                    <div class="card-title">پ١: بۆچی مەڵتی-کڵاسە؟</div>
+                    <div class="card-text"><strong>وەڵام:</strong> چونکە ۵ پۆلی سەربەخۆیە، چینی دەرچوون خاوەنی ۵ نۆدە، Softmax و Cross-Entropy بەکارهاتووە تا کۆی ئەگەرەکان ببێتە ١٠٠٪.</div>
+                </div>
+                <div class="card highlight">
+                    <div class="card-title">پ٢: تەنێکی جیاواز بدرێتێ؟</div>
+                    <div class="card-text"><strong>وەڵام:</strong> بەپێی Closed-World مۆدێلەکە ئەگەرەکان دابەش دەکات. بە دانانی ئاستی دڵنیایی (Threshold کەمتر لە ٥٥٪)، سیستەم دەڵێت تەنەکە نەناسراوە (Unknown).</div>
+                </div>
+                <div class="card amber">
+                    <div class="card-title">پ٣: دەوری داهێنانی Res-MLP؟</div>
+                    <div class="card-text"><strong>وەڵام:</strong> سەلماندی کە تۆڕی دەماری فرەچین (ANN) بە هاوکاری Skip Connection دەتوانێت سەرووی ٨٧٪ دیقەت لەسەر وێنە بەدەستبهێنێت بەبێ هەڵەی پشیلە و سەگ.</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <span style="font-size: 1.3rem; font-weight: bold; color: #4ade80;">سوپاس بۆ سەرنج و گوێگرتنتان — ئامادەم بۆ پرسیارەکانتان 🎓</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Notes Panel -->
+    <div class="notes-panel">
+        <div class="notes-icon">🎙️</div>
+        <div class="notes-content">
+            <div class="notes-title">وتەی پێشکەشکار بۆ لیژنە (Presenter Script):</div>
+            <div class="notes-text" id="speakerNote">بەخێربێن بۆ پێشکەشکردنی پڕۆژەی ANN...</div>
+        </div>
+    </div>
+
+    <!-- Controls Bottom Bar -->
+    <div class="bottom-bar">
+        <button class="btn secondary" id="prevBtn" onclick="changeSlide(-1)">← سڵایدی پێشوو</button>
+        <button class="btn" id="nextBtn" onclick="changeSlide(1)">سڵایدی داهاتوو →</button>
+    </div>
+
+    <script>
+        let currentSlideIndex = 1;
+        const totalSlides = 10;
+
+        function showSlide(index) {
+            if (index < 1) index = 1;
+            if (index > totalSlides) index = totalSlides;
+            currentSlideIndex = index;
+
+            document.querySelectorAll('.slide').forEach((slide, idx) => {
+                slide.classList.remove('active');
+                if (idx + 1 === currentSlideIndex) {
+                    slide.classList.add('active');
+                    document.getElementById('speakerNote').innerText = slide.getAttribute('data-note');
+                }
+            });
+
+            document.getElementById('currentSlide').innerText = currentSlideIndex;
+            document.getElementById('prevBtn').disabled = (currentSlideIndex === 1);
+            document.getElementById('nextBtn').innerText = (currentSlideIndex === totalSlides) ? "کۆتایی ✔️" : "سڵایدی داهاتوو →";
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlideIndex + direction);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                changeSlide(-1);
+            }
+        });
+
+        // Initialize
+        showSlide(1);
+    </script>
+</body>
+</html>
