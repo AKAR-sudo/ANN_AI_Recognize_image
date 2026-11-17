@@ -20,6 +20,8 @@ def get_data_loaders(data_dir="dataset", img_size=128, batch_size=64, max_train_
         transforms.RandomHorizontalFlip(p=0.5),
         transforms.ColorJitter(brightness=0.15, contrast=0.15),
         transforms.ToTensor(),
+        # [Formula 1 - Image Normalization]: X_norm = (X - mu) / sigma
+        # (ئاساییکردنەوەی پیکسڵەکان بە تێکڕا و لادانی پێوانەیی ImageNet بۆ دەوروبەری سفر)
         transforms.Normalize(mean=[0.485, 0.456, 0.406],
                              std=[0.229, 0.224, 0.225])
     ])
@@ -27,6 +29,7 @@ def get_data_loaders(data_dir="dataset", img_size=128, batch_size=64, max_train_
     test_transform = transforms.Compose([
         transforms.Resize((img_size, img_size)),
         transforms.ToTensor(),
+        # [Formula 1 - Image Normalization]: X_norm = (X - mu) / sigma
         transforms.Normalize(mean=[0.485, 0.456, 0.406],
                              std=[0.229, 0.224, 0.225])
     ])
@@ -104,9 +107,16 @@ def train_model(model_type="ann", epochs=10, batch_size=64, lr=0.0015, img_size=
     print(f"Sample distribution for training: {dict(zip(class_names, class_counts))}", flush=True)
     print(f"Total training images: {total_samples} | Total test images: {len(test_loader.dataset)}", flush=True)
 
-    # Optimize ANN Engine weights
+    # Optimize ANN Engine weights ONLY (Stage 1 feature extractor stays frozen)
+    # [Formula 8 - Categorical Cross-Entropy Loss]: L_CE = -sum(y_i * log(y_hat_i)) for i=1..5
+    # (هەژمارکردنی هەڵەی نێوان پێشبینی مۆدێل و پۆلی ڕاستەقینە بۆ هەر ٥ پۆلەکە)
     criterion = nn.CrossEntropyLoss(weight=class_weights_tensor, label_smoothing=0.05)
+
+    # AdamW Optimizer with decoupled Weight Decay (lambda = 1e-4) to prevent Overfitting
     optimizer = torch.optim.AdamW(model.ann_engine.parameters(), lr=lr, weight_decay=1e-4)
+
+    # [Formula 9 - Cosine Annealing LR]: eta_t = eta_min + 0.5*(eta_max - eta_min)*(1 + cos(t*pi/T))
+    # (خاوکردنەوەی خێرایی فێربوون بە شەپۆلی کۆساین لە 0.0015 بۆ 0.00001)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=1e-5)
 
     history = {

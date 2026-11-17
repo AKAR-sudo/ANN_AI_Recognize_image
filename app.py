@@ -100,12 +100,12 @@ st.sidebar.success(f"✅ مۆدێلی ANN چالاکە | باشترین Accuracy
 st.sidebar.markdown("---")
 st.sidebar.markdown("### 🧠 تایبەتمەندییە تەکنیکییەکانی ANN:")
 st.sidebar.markdown(f"""
-- **تەلارسازی:** Deep Residual MLP
-- **قەبارەی پیکسڵ:** {model_img_size}x{model_img_size}x3
-- **ژمارەی چینە شاردراوەکان:** ٧ چینی قووڵ
-- **کۆی پارامیتەرەکان:** ~١٤.٩ ملیۆن کێش
+- **تەلارسازی:** Deep Residual MLP (Res-MLP)
+- **قەبارەی وێنە:** {model_img_size}x{model_img_size}x3 ➜ وێکتەری 1,280 ڕەهەندی
+- **چینەکان:** ٧ چین (١ Input + ٥ Hidden + ١ Output)
 - **فەنکشنی کاراکردن:** GELU Activation
-- **تەکنیکی پاراستن:** LayerNorm + Skip Connections
+- **تەکنیکی پاراستن:** LayerNorm + Skip Connection (`x + F(x)`)
+- **پاراستنی OOD:** ئەگەر دڵنیایی `< 55%` بوو ➜ `Unknown`
 - **پۆلەکان (5 Classes):**
   - 🧑 مرۆڤ (Human)
   - 🐶 سەگ (Dog)
@@ -184,6 +184,7 @@ if selected_image is not None:
         curr_transform = transforms.Compose([
             transforms.Resize((model_img_size, model_img_size)),
             transforms.ToTensor(),
+            # [Formula 1 - Image Normalization]: X_norm = (X - mu) / sigma
             transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                  std=[0.229, 0.224, 0.225])
         ])
@@ -191,20 +192,32 @@ if selected_image is not None:
 
         with torch.no_grad():
             logits = ann_model(input_tensor)
+            # [Formula 7 - Softmax (Multi-Class)]: P(Y = k | x) = exp(z_k) / sum(exp(z_j)), sum(P) = 1.0
+            # (گۆڕینی ٥ لۆجیتسە خاوەکە بۆ ڕێژەی سەدی بە شێوەیەک کۆی گشتی ڕێک ببێتە 100%)
             probs = F.softmax(logits, dim=1).squeeze().numpy()
 
+        # [Formula 10 - Final Argmax Decision & OOD Safety Threshold]:
+        # y_hat = argmax(P)  |  Safety Rule: if max(P) < 0.55 (55%) -> UNKNOWN
+        # (بەرزترین ڕێژە هەڵدەبژێردرێت؛ بەڵام ئەگەر لە 55% کەمتر بوو وەک تەنی نەناسراو ڕەت دەکرێتەوە)
+        OOD_THRESHOLD = 55.0
         top_idx = int(np.argmax(probs))
         top_class = CLASS_NAMES[top_idx]
         top_prob = float(probs[top_idx]) * 100.0
 
-        st.markdown(f"""
-        <div class='metric-card'>
-            <div style='font-size: 1.1rem; color: #4B5563;'>پێشبینی مۆدێلی ANN:</div>
-            <div class='prediction-badge'>{CLASS_ICONS[top_class]} {top_class.upper()}</div>
-            <div class='kurdish-badge'>{KURDISH_NAMES[top_class]}</div>
-            <div style='font-size: 1.2rem; font-weight: bold; margin-top: 8px;'>ڕێژەی دڵنیایی: {top_prob:.1f}%</div>
-        </div>
-        """, unsafe_allow_html=True)
+        if top_prob < OOD_THRESHOLD:
+            st.warning(
+                f"⚠️ **Unrecognized / Out-of-Distribution Object (تەنی نەناسراو)** — "
+                f"بەرزترین دڵنیایی ({top_prob:.1f}%) لە سنووری سەلامەتی (55%) کەمترە!"
+            )
+        else:
+            st.markdown(f"""
+            <div class='metric-card'>
+                <div style='font-size: 1.1rem; color: #4B5563;'>پێشبینی مۆدێلی ANN:</div>
+                <div class='prediction-badge'>{CLASS_ICONS[top_class]} {top_class.upper()}</div>
+                <div class='kurdish-badge'>{KURDISH_NAMES[top_class]}</div>
+                <div style='font-size: 1.2rem; font-weight: bold; margin-top: 8px;'>ڕێژەی دڵنیایی: {top_prob:.2f}%</div>
+            </div>
+            """, unsafe_allow_html=True)
 
         st.markdown("#### 📊 ڕێژەی دڵنیایی بۆ هەموو پۆلەکان (Class Probabilities):")
         df_probs = pd.DataFrame({
@@ -215,7 +228,8 @@ if selected_image is not None:
 
         with st.expander("💡 چۆنیەتی بڕیاردانی تۆڕی دەماری (ANN):"):
             st.markdown(f"""
-            - وێنەکە گۆڕدرا بۆ ماتریکسی پیکسڵی **{model_img_size}x{model_img_size}x3 = {model_img_size * model_img_size * 3}** نۆدی چوونەژوورەوە.
-            - بەناو **٧ چینی شاردراوە (Hidden Layers)** و بلۆکەکانی **Skip Connection**دا تێپەڕی.
-            - فەنکشنی **GELU** ناهێڵییەتی دەستنیشان کرد و فەنکشنی **Softmax** لە دوا چیندا ئەگەرەکانی دابەشکرد.
+            - وێنەکە گۆڕدرا بۆ قەبارەی **{model_img_size}x{model_img_size}x3** و لە قۆناغی یەکەمدا کرایە **وێکتەرێکی ١,٢٨٠ ڕەهەندی (1,280-D Semantic Vector)**.
+            - بەناو **٧ چین (١ Input + ٥ Hidden + ١ Output)** و بلۆکی **Skip Connection (`x + F(x)`)**ـدا تێپەڕی.
+            - **LayerNorm** ژمارەکانی هاوسەنگ کرد و **GELU** ناهێڵییەتی دەستنیشان کرد بێ مردنی نۆدەکان.
+            - فەنکشنی **Softmax** ئەگەرەکانی بۆ هەر ٥ پۆلەکە کرد بە کۆی گشتی **100%** (و مەرجی `< 55%` تەنی دەرەکی دەناسێتەوە).
             """)
